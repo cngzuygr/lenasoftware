@@ -1,20 +1,34 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, View } from "react-native";
+import { useFonts } from "expo-font";
+import { ItemProvider } from "./src/context/ItemContext";
+
+import Navigation from "./src/navigation";
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+	const [fonts] = useFonts({
+		Graphik: require("./assets/fonts/GraphikRegular.otf"),
+		Grold: require("./assets/fonts/GroldRoundedSlim-SemiLight.ttf"),
+	});
+
+	if (!fonts) {
+		return (
+			<View style={styles.loadingContainer}>
+				<ActivityIndicator size={"large"} color={"#222FAC"} />
+			</View>
+		);
+	}
+
+	return (
+		<ItemProvider>
+			<Navigation />
+		</ItemProvider>
+	);
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+	loadingContainer: {
+		flex: 1,
+		backgroundColor: "#fff",
+		justifyContent: "center",
+	},
 });
